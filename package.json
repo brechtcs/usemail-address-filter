@@ -1,0 +1,42 @@
+{
+  "name": "usemail-address-filter",
+  "version": "0.1.0",
+  "description": "Filter senders and recipients in Usemail",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js && standard"
+  },
+  "dependencies": {
+    "stdopt": "^11.1.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.3",
+    "tape": "^5.0.0",
+    "usemail": "^0.4.1",
+    "usemail-test-utils": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brechtcs/usemail-block.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brechtcs/usemail-block/issues"
+  },
+  "homepage": "https://github.com/brechtcs/usemail-block#readme",
+  "keywords": [
+    "usemail",
+    "mail",
+    "server",
+    "filter",
+    "block",
+    "allow",
+    "blacklist",
+    "whitelist",
+    "sender",
+    "recipient",
+    "from",
+    "to"
+  ],
+  "author": "Brecht Savelkoul <brecht.savelkoul@alumni.lse.ac.uk>",
+  "license": "Apache-2.0"
+}
