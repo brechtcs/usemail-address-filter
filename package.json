@@ -1,13 +1,13 @@
 {
   "name": "usemail-address-filter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Filter senders and recipients in Usemail",
   "main": "index.js",
   "scripts": {
     "test": "tape test.js && standard"
   },
   "dependencies": {
-    "stdopt": "^11.1.0"
+    "stdopt": "^12.0.0"
   },
   "devDependencies": {
     "standard": "^14.3.3",

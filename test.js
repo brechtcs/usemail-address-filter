@@ -49,9 +49,6 @@ test('block to', async function (t) {
   await server.listen()
   await sendMail(server.port, {
     to: ['sync@localhost', 'async@localhost', 'yep@localhost']
-  }).catch(function (err) {
-    console.log('ping')
-    t.ok(err)
   })
 
   await server.close()

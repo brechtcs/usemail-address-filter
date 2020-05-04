@@ -1,53 +1,57 @@
-var { Opt, list, nothing, string } = require('stdopt')
+var { Opt, hash, list, nothing, string } = require('stdopt')
+
+var OPTS_ERR = 'Invalid option for `usemail-address-filter`'
 var PHASE_ERR = 'Address filter must run in phase `from` or `to`'
 
 module.exports.allow = function (opts) {
-  var config = new Config(opts).value()
+  var { addresses, verify } = new Config(opts).catch(OPTS_ERR).value()
 
   return async function block ({ address }, session, ctx) {
     if (checkPhase(ctx)) {
       throw new Error(PHASE_ERR)
     }
 
-    if (config.addr.includes(address)) return
-    if (config.verify && (await config.verify(address))) return
-    throw new Error(sendReject(phase, address))
+    if (addresses.includes(address)) return
+    if (verify && (await verify(address))) return
+    throw new Error(sendReject(ctx.phase, address))
   }
 }
 
 module.exports.block = function (opts) {
-  var config = new Config(opts).value()
+  var { addresses, verify } = new Config(opts).catch(OPTS_ERR).value()
 
   return async function block ({ address }, session, ctx) {
     if (checkPhase(ctx)) {
       throw new Error(PHASE_ERR)
     }
 
-    if (config.addr.includes(address)) throw new Error(sendReject(phase, address))
-    if (config.verify && (await config.verify(address))) {
-      throw new Error(sendReject(phase, address))
+    if (addresses.includes(address)) throw new Error(sendReject(ctx.phase, address))
+    if (verify && (await verify(address))) {
+      throw new Error(sendReject(ctx.phase, address))
     }
   }
 }
 
 class Config extends Opt {
   static parse (opts) {
-    try {
-      var addr = list(opts.addresses, string).or([]).value()
-      var verify = new Method(opts.verify).value()
-      return { addr, verify }
-    } catch (err) {
-      return err
+    return hash(opts, this.struct).map(config => {
+      config.addresses = list(config.addresses).or([]).value()
+      return config
+    })
+  }
+
+  static get struct () {
+    return {
+      addresses: [nothing, list.of(string)],
+      verify: [nothing, VerifyFunction]
     }
   }
 }
 
-class Method extends Opt {
+class VerifyFunction extends Opt {
   static parse (fn) {
     if (typeof fn === 'function') {
       return fn
-    } else if (fn === false || nothing(fn).isValid) {
-      return false
     }
   }
 }
