@@ -14,7 +14,7 @@ test('allow from', async function (t) {
   }
 
   server.from(filter.allow(config))
-  server.use(function (session, ctx) {
+  server.use(function (session) {
     t.notEqual(session.envelope.mailFrom.address, 'nope@localhost')
     count++
   })
