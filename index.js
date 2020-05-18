@@ -13,7 +13,7 @@ module.exports.allow = function (opts) {
 
     if (addresses.includes(address)) return
     if (verify && (await verify(address))) return
-    sendReject(session.phase, address)
+    sendReject(session, address)
   }
 }
 
@@ -25,8 +25,8 @@ module.exports.block = function (opts) {
       throw new Error(PHASE_ERR)
     }
 
-    if (addresses.includes(address)) sendReject(session.phase, address)
-    if (verify && (await verify(address))) sendReject(session.phase, address)
+    if (addresses.includes(address)) sendReject(session, address)
+    if (verify && (await verify(address))) sendReject(session, address)
   }
 }
 

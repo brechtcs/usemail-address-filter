@@ -49,7 +49,7 @@ test('block to', async function (t) {
   await server.listen()
   await sendMail(server.port, {
     to: ['sync@localhost', 'async@localhost', 'yep@localhost']
-  })
+  }).catch(err => t.fail())
 
   await server.close()
   t.equal(count, 1)
